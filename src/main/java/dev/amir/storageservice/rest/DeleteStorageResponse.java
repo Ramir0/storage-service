@@ -1,0 +1,12 @@
+package dev.amir.storageservice.rest;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class DeleteStorageResponse {
+    private Iterable<Long> ids;
+}
