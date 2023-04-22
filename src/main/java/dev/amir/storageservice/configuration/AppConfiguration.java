@@ -17,6 +17,7 @@ public class AppConfiguration implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+        config.exposeIdsFor(Storage.class);
         config.getExposureConfiguration()
                 .forDomainType(Storage.class)
                 .withItemExposure((metadata, httpMethods) -> httpMethods.disable(HttpMethod.PATCH, HttpMethod.PUT))

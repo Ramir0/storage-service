@@ -12,10 +12,6 @@ public interface StorageRepository extends CrudRepository<Storage, Long> {
 
     @Override
     @RestResource(exported = false)
-    Iterable<Storage> findAll();
-
-    @Override
-    @RestResource(exported = false)
     void deleteById(Long id);
 
     Collection<Storage> findAllByIdIn(Collection<Long> ids);
