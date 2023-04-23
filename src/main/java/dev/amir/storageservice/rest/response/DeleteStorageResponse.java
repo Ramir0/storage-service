@@ -1,4 +1,4 @@
-package dev.amir.storageservice.rest;
+package dev.amir.storageservice.rest.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

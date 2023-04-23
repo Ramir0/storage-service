@@ -1,22 +1,44 @@
 package dev.amir.storageservice.rest;
 
 import dev.amir.storageservice.entity.Storage;
+import dev.amir.storageservice.repository.StorageRepository;
+import dev.amir.storageservice.rest.response.DeleteStorageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
-@RepositoryRestController
+@Slf4j
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/storages")
 public class StorageController {
-
     private final StorageRepository storageRepository;
 
-    @DeleteMapping("/storages")
+    @PostMapping
+    public ResponseEntity<Storage> saveStorage(@RequestBody Storage storage) {
+        if (Objects.isNull(storage) || Objects.nonNull(storage.getId())) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            return ResponseEntity.ok(storageRepository.save(storage));
+        } catch (Exception exception) {
+            log.error("Storage was not saved", exception);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<Storage>> getAllStorages() {
+        return ResponseEntity.ok(storageRepository.findAll());
+    }
+
+    @DeleteMapping
     public ResponseEntity<DeleteStorageResponse> deleteAllByIdIn(@RequestParam("id") List<Long> ids) {
+        log.info("Deleting Storages with ids: [{}]", ids);
         var existingStorages = storageRepository.findAllByIdIn(ids);
         var existingStoragesIds = existingStorages.stream().map(Storage::getId).toList();
         storageRepository.deleteAllById(existingStoragesIds);
