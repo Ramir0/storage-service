@@ -28,4 +28,7 @@ Please make sure that all of these dependencies are installed and configured cor
 
 ## Cleaning Project and Resources
 `mvn clean -U` - Clean project files generated and update dependencies
+
+`docker-compose down --volumes` - Delete all services related to the project
+
 `docker network rm resource-network` - Delete docker network
