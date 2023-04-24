@@ -33,15 +33,25 @@ public class StorageController {
 
     @GetMapping
     public ResponseEntity<Iterable<Storage>> getAllStorages() {
-        return ResponseEntity.ok(storageRepository.findAll());
+        try {
+            return ResponseEntity.ok(storageRepository.findAll());
+        } catch (Exception exception) {
+            log.error("Storages were not fetched", exception);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<DeleteStorageResponse> deleteAllByIdIn(@RequestParam("id") List<Long> ids) {
         log.info("Deleting Storages with ids: [{}]", ids);
-        var existingStorages = storageRepository.findAllByIdIn(ids);
-        var existingStoragesIds = existingStorages.stream().map(Storage::getId).toList();
-        storageRepository.deleteAllById(existingStoragesIds);
-        return ResponseEntity.ok(new DeleteStorageResponse(existingStoragesIds));
+        try {
+            var existingStorages = storageRepository.findAllByIdIn(ids);
+            var existingStoragesIds = existingStorages.stream().map(Storage::getId).toList();
+            storageRepository.deleteAllById(existingStoragesIds);
+            return ResponseEntity.ok(new DeleteStorageResponse(existingStoragesIds));
+        } catch (Exception exception) {
+            log.error("Storages were not deleted", exception);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
