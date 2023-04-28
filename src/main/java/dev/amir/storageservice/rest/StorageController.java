@@ -23,6 +23,7 @@ public class StorageController {
         if (Objects.isNull(storage) || Objects.nonNull(storage.getId())) {
             return ResponseEntity.badRequest().build();
         }
+        log.info("Saving Storage: [{}]", storage);
         try {
             return ResponseEntity.ok(storageRepository.save(storage));
         } catch (Exception exception) {
@@ -33,6 +34,7 @@ public class StorageController {
 
     @GetMapping
     public ResponseEntity<Iterable<Storage>> getAllStorages() {
+        log.info("Fetching all Storages");
         try {
             return ResponseEntity.ok(storageRepository.findAll());
         } catch (Exception exception) {
