@@ -18,9 +18,9 @@ public class Storage {
     @Column(name = "storage_type")
     private String storageType;
 
-    @Column(name = "bucket")
+    @Column
     private String bucket;
 
-    @Column(name = "path")
+    @Column
     private String path;
 }
